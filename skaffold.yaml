@@ -1,0 +1,61 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: skaffold-workspace
+
+build:
+  local:
+    concurrency: 1
+    push: false
+    useBuildkit: true
+
+  artifacts:
+    - image: shadysmaoui/app-a
+      context: apps/app-a
+      docker:
+        dockerfile: Dockerfile
+    - image: shadysmaoui/app-b
+      context: apps/app-b
+      docker:
+        dockerfile: Dockerfile
+
+deploy:
+  helm:
+    releases:
+      - name: skaffold-workspace-app-a
+        chartPath: apps/app-a/helm/
+        skipBuildDependencies: true
+        namespace: skaffold-workspace
+        createNamespace: true
+        upgradeOnChange: true
+        setValues:
+          image:
+            repository: shadysmaoui/app-a
+
+      - name: skaffold-workspace-app-b
+        chartPath: apps/app-b/helm/
+        skipBuildDependencies: true
+        namespace: skaffold-workspace
+        createNamespace: true
+        upgradeOnChange: true
+        setValues:
+          image:
+            repository: shadysmaoui/app-b
+
+    hooks:
+      before:
+        - host:
+            command: ["sh", "-c", "kubectl create namespace skaffold-workspace --dry-run=client -o yaml | kubectl apply -f -"]
+
+portForward:
+  - resourceType: service
+    namespace: "skaffold-workspace"
+    resourceName: "app-a"
+    port: 8080
+    localPort: 8080
+  - resourceType: service
+    namespace: "skaffold-workspace"
+    resourceName: "app-b"
+    port: 8081
+    localPort: 8081
+

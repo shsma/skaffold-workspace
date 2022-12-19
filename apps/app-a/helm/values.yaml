@@ -1,0 +1,10 @@
+name: "app-a"
+image:
+  repository: "this-is-a-placeholder-should-be-docker-repo-url"
+service:
+  type: ClusterIP
+  http:
+    name: http
+    protocol: TCP
+    externalPort: 8080
+    internalPort: 8080
