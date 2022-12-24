@@ -1,5 +1,3 @@
-
-
 SHELL := /bin/bash
 
 OS ?= $(shell uname | tr '[:upper:]' '[:lower:]')
@@ -19,3 +17,8 @@ api-server: $(API_SERVER_REQUIRES)
 
 api-server-amd64: $(API_SERVER_REQUIRES)
 	cd cmd/ && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o ../$@ main.go
+
+.PHONY: helm-prepare
+helm-prepare:
+	helm repo add bitnami https://charts.bitnami.com/bitnami
+	helm dep update helm/

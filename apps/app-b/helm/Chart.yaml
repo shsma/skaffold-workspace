@@ -4,3 +4,9 @@ description: app-a
 type: application
 version: 0.0.1
 appVersion: "local"
+
+dependencies:
+  - name: postgresql
+    version: 11.8.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled

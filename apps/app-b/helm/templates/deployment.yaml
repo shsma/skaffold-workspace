@@ -18,4 +18,26 @@ spec:
         - name: registry-creds
       containers:
         - name: {{ .Values.name }}
-          image: {{ .Values.image.repository }}
+          image: {{ .Values.server.image.repository }}
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.server.http.port }}
+              protocol: {{ .Values.server.http.protocol }}
+              name: {{ .Values.server.http.name }}
+          env:
+            - name: HTTP_SERVER_PORT
+              value: {{ .Values.server.http.port | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.config.logs.level}}
+            - name: DB_DRIVER
+              value: {{ .Values.config.database.db_driver }}
+            - name: DB_HOST
+              value: {{ .Values.config.database.host }}
+            - name: DB_SSLMODE
+              value: {{ .Values.config.database.sslmode }}
+            - name: DB_NAME
+              value: {{ .Values.config.database.db_name }}
+            - name: DB_USERNAME
+              value: {{ .Values.config.database.username }}
+            - name: DB_PASSWORD
+              value: {{ .Values.config.database.password }}

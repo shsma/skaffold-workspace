@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"github.com/rs/zerolog/log"
+	"github.com/shsma/app-b/pkg/config"
 	"net/http"
 )
 
@@ -25,10 +26,13 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	cfg := config.LoadServerConfig()
+	cfg.LogServerConfig()
+
 	http.HandleFunc("/hello", helloHandler) // Update this line of code
 
-	fmt.Printf("Starting app-b at port 8081\n")
-	if err := http.ListenAndServe(":8081", nil); err != nil {
-		log.Fatal(err)
+	log.Info().Msgf("Starting app-b at port %s\n", cfg.Port)
+	if err := http.ListenAndServe(fmt.Sprintf(":%v", cfg.Port), nil); err != nil {
+		log.Error().Err(err).Msg("Failed to start the server")
 	}
 }

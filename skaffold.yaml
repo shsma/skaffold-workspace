@@ -2,13 +2,11 @@ apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: skaffold-workspace
-
 build:
   local:
     concurrency: 1
     push: false
     useBuildkit: true
-
   artifacts:
     - image: shadysmaoui/app-a
       context: apps/app-a
@@ -18,7 +16,6 @@ build:
       context: apps/app-b
       docker:
         dockerfile: Dockerfile
-
 deploy:
   helm:
     releases:
@@ -39,14 +36,23 @@ deploy:
         createNamespace: true
         upgradeOnChange: true
         setValues:
-          image:
-            repository: shadysmaoui/app-b
-
+          server:
+            image:
+              repository: shadysmaoui/app-b
+          postgresql:
+            fullnameOverride: skaffold-workspace-postgres
+            enabled: true
+            auth:
+              username: postgres
+              password: postgres
+              database: app_b_db
+            primary:
+              persistence:
+                size: 200Mi
     hooks:
       before:
         - host:
             command: ["sh", "-c", "kubectl create namespace skaffold-workspace --dry-run=client -o yaml | kubectl apply -f -"]
-
 portForward:
   - resourceType: service
     namespace: "skaffold-workspace"

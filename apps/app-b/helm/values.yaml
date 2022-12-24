@@ -1,6 +1,4 @@
 name: "app-b"
-image:
-  repository: "this-is-a-placeholder-should-be-docker-repo-url"
 service:
   type: ClusterIP
   http:
@@ -8,3 +6,21 @@ service:
     protocol: TCP
     externalPort: 8081
     internalPort: 8081
+server:
+  http:
+    name: http
+    protocol: TCP
+    port: 8081
+  image:
+    repository: "this-is-a-placeholder-should-be-docker-repo-url"
+    pullPolicy: IfNotPresent
+config:
+  logs:
+    level: debug
+  database:
+    db_driver: postgres
+    host: skaffold-workspace-postgres
+    sslmode: disable
+    db_name: app_b_db
+    username: postgres
+    password: postgres
