@@ -48,7 +48,23 @@ deploy:
               database: app_b_db
             primary:
               persistence:
-                size: 200Mi
+                size: 100Mi
+          minio:
+            fullnameOverride: skaffold-workspace-minio
+            enabled: true
+            accessKey: admin
+            secretKey: MinIoSecret
+            service:
+              type: NodePort
+            replicas: 1
+            persistence:
+              size: 1Gi
+            resources:
+              requests:
+                memory: 100Mi
+            defaultBucket:
+              enabled: true
+              name: skaffold-workspace
     hooks:
       before:
         - host:
@@ -64,4 +80,9 @@ portForward:
     resourceName: "app-b"
     port: 8081
     localPort: 8081
+  - resourceType: Service
+    namespace: "skaffold-workspace"
+    resourceName: "skaffold-workspace-minio"
+    port: 9000
+    localPort: 9000
 
