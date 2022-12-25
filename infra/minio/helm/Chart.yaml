@@ -1,0 +1,12 @@
+apiVersion: v2
+name: minio
+description: minio
+type: application
+version: 0.0.1
+appVersion: "local"
+
+dependencies:
+  - name: minio
+    version: 8.0.9
+    repository: https://helm.min.io/
+    condition: minio.enabled

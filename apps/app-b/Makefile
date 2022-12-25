@@ -21,4 +21,5 @@ api-server-amd64: $(API_SERVER_REQUIRES)
 .PHONY: helm-prepare
 helm-prepare:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
+	helm repo update
 	helm dep update helm/
