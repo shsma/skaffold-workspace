@@ -33,10 +33,12 @@ spec:
               value: {{ .Values.config.database.db_driver }}
             - name: DB_HOST
               value: {{ .Values.config.database.host }}
+            - name: DB_PORT
+              value: {{ .Values.config.database.port | quote}}
             - name: DB_SSLMODE
               value: {{ .Values.config.database.sslmode }}
             - name: DB_NAME
-              value: {{ .Values.config.database.db_name }}
+              value: {{ .Values.config.database.db_name | quote}}
             - name: DB_USERNAME
               value: {{ .Values.config.database.username }}
             - name: DB_PASSWORD

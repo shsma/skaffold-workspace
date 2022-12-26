@@ -1,0 +1,1 @@
+-- Represents the empty database at the lowest migration version.

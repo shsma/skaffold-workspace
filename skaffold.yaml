@@ -42,20 +42,23 @@ deploy:
 
       - name: skaffold-workspace-postgres
         chartPath: infra/postgres/helm/
+        namespace: skaffold-workspace
         setValues:
           postgresql:
             fullnameOverride: skaffold-workspace-postgres
             enabled: true
             auth:
-              username: postgres
-              password: postgres
-              database: app_b_db
+              postgresPassword: ayjXWHStdFOEROk4EQclrfwR3Lm4isHE9Hrh3rt8o
+              database: workspacedb
+              username: workspaceuser
+              password: ayjXWHStdFOEROk4EQclrfwR3Lm4isHE9Hrh3rt
             primary:
               persistence:
                 size: 100Mi
 
       - name: skaffold-workspace-minio
         chartPath: infra/minio/helm/
+        namespace: skaffold-workspace
         setValues:
           minio:
             fullnameOverride: skaffold-workspace-minio
@@ -88,9 +91,4 @@ portForward:
     resourceName: "app-b"
     port: 8081
     localPort: 8081
-  - resourceType: Service
-    namespace: "skaffold-workspace"
-    resourceName: "skaffold-workspace-minio"
-    port: 9000
-    localPort: 9000
 

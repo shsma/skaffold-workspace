@@ -19,8 +19,9 @@ config:
     level: debug
   database:
     db_driver: postgres
-    host: skaffold-workspace-postgres
-    sslmode: disable
-    db_name: app_b_db
-    username: postgres
-    password: postgres
+    host: skaffold-workspace-postgres.skaffold-workspace
+    port: 5432
+    sslmode: enable
+    db_name: workspacedb
+    username: workspaceuser
+    password: ayjXWHStdFOEROk4EQclrfwR3Lm4isHE9Hrh3rt

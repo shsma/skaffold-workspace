@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/rs/zerolog/log"
+	_ "github.com/shsma/app-b/internal/database/postgres"
 	"github.com/shsma/app-b/pkg/config"
 	"net/http"
 )
@@ -29,7 +30,7 @@ func main() {
 	cfg := config.LoadServerConfig()
 	cfg.LogServerConfig()
 
-	http.HandleFunc("/hello", helloHandler) // Update this line of code
+	http.HandleFunc("/hello", helloHandler)
 
 	log.Info().Msgf("Starting app-b at port %s\n", cfg.Port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%v", cfg.Port), nil); err != nil {
